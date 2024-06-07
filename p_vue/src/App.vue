@@ -1,22 +1,25 @@
 <template>
-  <div>
+  <div class="home">
     <nav_bar />
-    <main_wrap />
+
+    <router-view></router-view>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import nav_bar from './components/navbar.vue'
-import main_wrap from './components/main/main-wrap.vue'
-
+import nav_bar from './components/nav-bar.vue'
 
 
 </script>
 
 <style>
-  body {
-    padding: 0;
-    margin: 0;
-  }
+    html, #app, .home {
+        height: 100%;
+    }
+    body {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        background-color: #E0FBE2;
+    }
 </style>

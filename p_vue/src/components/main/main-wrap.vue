@@ -26,7 +26,7 @@ import date_from from './main-input-date.vue'
 
 <style scoped lang="scss">
 .wrap {
-    background-color: #A3C6DA;
+    background-color: #BFF6C3;
     height: 500px;
     display: flex;
     justify-content: center;
@@ -35,7 +35,7 @@ import date_from from './main-input-date.vue'
 
     .title {
         font-family: "Arimo", sans-serif;;
-        color: #FDFDFB;
+        color: black;
     
         font-optical-sizing: auto;
         font-weight: 700;
@@ -49,7 +49,7 @@ import date_from from './main-input-date.vue'
 
             span:last-child {
                 font-size: smaller;
-                color: #0E212E;
+                color: black;
             }
         }
     }
