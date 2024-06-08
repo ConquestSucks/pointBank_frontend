@@ -17,9 +17,9 @@ import nav_bar from './components/nav-bar.vue'
         height: 100%;
     }
     body {
-        padding: 0;
-        margin: 0;
+        background-image: url("assets/background.jpg") ;
+        background-repeat: no-repeat;
+        background-size: cover;
         height: 100%;
-        background-color: #E0FBE2;
     }
 </style>

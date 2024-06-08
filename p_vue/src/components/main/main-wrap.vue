@@ -28,6 +28,8 @@ import date_from from './main-input-date.vue'
 .wrap {
     background-color: #BFF6C3;
     height: 500px;
+    border-radius: 10px;
+    opacity: 85%;
     display: flex;
     justify-content: center;
     flex-direction: column;
