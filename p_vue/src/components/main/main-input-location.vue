@@ -5,11 +5,11 @@
 </template>
   
 <script setup>
+import { defineProps } from 'vue'
 
 const props = defineProps({
       placeholder: String,
    })
-   console.log(props.placeholder)
 </script>
 
 <style scoped lang="scss">

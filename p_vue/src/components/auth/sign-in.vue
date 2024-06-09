@@ -2,19 +2,60 @@
 <div class="sign-in">
     <form>
         <div class="input-data">
-            <input type="text" placeholder="Логин">
-            <input type="password" placeholder="Пароль">
+            <input type="text" placeholder="Логин" v-model="username">
+            <input type="password" placeholder="Пароль" v-model="password">
         </div>
         <div class="reset">
             <a href="#">Забыли пароль?</a>
         </div>
-        <input class="submit" type="submit" value="Войти">
+        <div class="submit" @click="signIn(username, password)">
+            Войти
+        </div>
     </form>
 </div>
 </template>
   
 <script setup>
 
+import axios from 'axios';  
+import { defineModel, onMounted } from "vue";
+import { useIndexStore } from '@/store/index'
+import { useRouter, useRoute } from 'vue-router'
+
+const router = useRouter()
+
+const store = useIndexStore()
+
+const username = defineModel('username');
+const password = defineModel('password');
+
+
+async function signIn(username, password) {
+    try {
+        const response = await axios.post('http://127.0.0.1:8000/api/signin/', {
+            username: username,
+            password: password
+        });
+
+        if (response.status == 200) {
+            alert("Вы успешно авторизовались")
+            store.authorized = !store.authorized
+            router.push('/myprofile')
+        }
+        else {
+            alert("ошибка")
+        }
+    }
+    catch(error) {
+        console.log(error)
+    }
+
+}
+
+
+onMounted(() => {
+    
+})
 
 </script>
 
@@ -69,6 +110,9 @@
         }
 
         .submit {
+            display: flex;
+            justify-content: center;
+            align-items: center;
             border-radius: 15px;
             background-color: #E0FBE2;
             border: 0;

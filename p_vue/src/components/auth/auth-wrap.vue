@@ -2,10 +2,10 @@
     <div class="auth">
         <div class="auth-wrap">
             <div class="change">
-                <div class="sign-in" @click="changeVisability(1)">
+                <div class="sign-in" @click="changeVisability(1)" ref="signin">
                     <span>Войти</span>
                 </div>
-                <div class="sign-up" @click="changeVisability(0)">
+                <div class="sign-up" @click="changeVisability(0)" ref="signup">
                     <span>Зарегистрироваться</span>
                 </div>
             </div>
@@ -21,15 +21,20 @@
 import { ref } from 'vue';
 import SingIn from './sign-in.vue'
 import SingUp from './sign-up.vue'
-
+const signin = ref()
+const signup = ref()
 let change = ref(1)
 
 const changeVisability = (val) => {
     if (val == 0) {
         change.value = 0
+        signup.value.style.background = "#B0EBB4"
+        signin.value.style.background = "#E0FBE2"
     }
     else {
         change.value = 1
+        signin.value.style.background = "#B0EBB4"
+        signup.value.style.background = "#E0FBE2"
     }
 }
 

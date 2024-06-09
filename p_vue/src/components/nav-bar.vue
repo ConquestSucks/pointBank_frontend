@@ -11,7 +11,7 @@
             <div class="routes">
                 <span>Маршруты</span>
             </div>  
-        <router-link to="/auth">
+        <router-link to="/auth" class="link" v-show="!store.authorized">
             <div class="sign-in-sign-up">
                 <span>Войти</span>
             </div>
@@ -20,11 +20,17 @@
 </template>
 
 <script setup>
-
+import { useIndexStore } from '@/store/index'
+const store = useIndexStore()
+console.log(store.authorized)
 </script>
 
 
 <style scoped lang="scss">
+
+.link {
+    text-decoration: none;
+}
 
 .navbar {
     border-radius: 30px;
@@ -58,7 +64,9 @@
         cursor: pointer;
         transition: 0.5s;
 
+
         span {
+            color: black !important;
             font-size: medium;
             font-weight: 400;
             color:#AFC4D3;

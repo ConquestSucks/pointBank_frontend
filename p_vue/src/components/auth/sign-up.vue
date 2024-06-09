@@ -2,17 +2,45 @@
     <div class="sign-up">
         <form>
             <div class="input-data">
-                <input type="text" placeholder="Логин">
-                <input type="password" placeholder="Пароль">
-                <input type="password" placeholder="Введите пароль еще раз">
+                <input type="text" placeholder="Логин" v-model="username">
+                <input type="password" placeholder="Пароль" v-model="password">
+                <input type="password" placeholder="Введите пароль еще раз" v-model="confirmPassword">
             </div>
-            <input class="submit" type="submit" value="Зарегистрироваться">
+            <div class="submit" @click="signUp(username, password, confirmPassword)">
+                Зарегистрироваться
+            </div>
         </form>
     </div>
     </template>
       
     <script setup>
-    
+    import axios from 'axios';  
+    import { defineModel } from "vue";
+
+    const username = defineModel('username')
+    const password = defineModel('password');
+    const confirmPassword = defineModel('confirmPassword');
+
+    async function signUp(username, password, confirmPassword) {
+        if (confirmPassword === password)
+            try {
+                const response = await axios.post('http://127.0.0.1:8000/api/register/', {
+                    username: username,
+                    password: password,
+                    email: 'bravo.bezbashen@mail.ru'
+                });
+
+                if (response.status == 201) {
+                    alert("Вы успешно зарегистрировались")
+                }
+                else {
+                    alert("ошибка")
+                }
+            }
+            catch(error) {
+                console.log(error)
+            }
+}
     
     </script>
     
@@ -59,6 +87,9 @@
             }
         }
         .submit {
+            display: flex;
+            justify-content: center;
+            align-items: center;
             border-radius: 15px;
             background-color: #E0FBE2;
             border: 0;

@@ -1,14 +1,13 @@
 <template>
   <div class="home">
     <nav_bar />
-
+    <profile />
     <router-view></router-view>
   </div>
 </template>
 
 <script setup>
 import nav_bar from './components/nav-bar.vue'
-
 
 </script>
 
