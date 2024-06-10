@@ -1,7 +1,6 @@
 <template>
   <div class="home">
     <nav_bar />
-    <profile />
     <router-view></router-view>
   </div>
 </template>

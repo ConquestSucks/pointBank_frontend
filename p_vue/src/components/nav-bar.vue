@@ -5,24 +5,29 @@
                 <img src="../assets/logo.png">
             </div>
         </router-link>
-            <div class="contacts">
+            <div class="buttons">
                 <span>Контакты</span>
             </div>  
-            <div class="routes">
+            <div class="buttons">
                 <span>Маршруты</span>
             </div>  
-        <router-link to="/auth" class="link" v-show="!store.authorized">
-            <div class="sign-in-sign-up">
+        <router-link v-if="!store.$state.accessToken" to="/auth" class="link">
+            <div class="buttons">
                 <span>Войти</span>
+            </div>
+        </router-link>
+        <router-link v-if="store.$state.accessToken" to="/myprofile" class="link">
+            <div class="buttons">
+                <span>Аккаунт</span>
             </div>
         </router-link>
     </div>
 </template>
 
 <script setup>
-import { useIndexStore } from '@/store/index'
-const store = useIndexStore()
-console.log(store.authorized)
+import { useAuthStore } from "@/store/auth.js"
+const store = useAuthStore()
+
 </script>
 
 
@@ -54,7 +59,7 @@ console.log(store.authorized)
         }
     }
 
-    .sign-in-sign-up {
+    .buttons {
         display: flex;
         padding: 5px;
         align-items: center;
@@ -70,46 +75,6 @@ console.log(store.authorized)
             font-size: medium;
             font-weight: 400;
             color:#AFC4D3;
-        }
-
-        &:hover {
-            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-            transition: 0.5s;
-        }
-    }
-    .contacts {
-        display: flex;
-        padding: 5px;
-        align-items: center;
-        border-radius: 10px;
-        height: fit-content;
-        text-align: center;
-        cursor: pointer;
-        transition: 0.5s;
-
-        span {
-            font-size: medium;
-            font-weight: 400;
-        }
-
-        &:hover {
-            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-            transition: 0.5s;
-        }
-    }
-    .routes {
-        display: flex;
-        padding: 5px;
-        align-items: center;
-        border-radius: 10px;
-        height: fit-content;
-        text-align: center;
-        cursor: pointer;
-        transition: 0.5s;
-
-        span {
-            font-size: medium;
-            font-weight: 400;
         }
 
         &:hover {

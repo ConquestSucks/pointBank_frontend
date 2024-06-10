@@ -5,7 +5,9 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import { createPinia } from 'pinia'
 
-createApp(App)
+const app = createApp(App)
+
+app
 .use(createPinia())
 .use(router)
 .use(VueAxios, axios)

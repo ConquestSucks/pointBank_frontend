@@ -3,46 +3,31 @@
         <form>
             <div class="input-data">
                 <input type="text" placeholder="Логин" v-model="username">
+                <input type="email" placeholder="Почта" v-model="email">
                 <input type="password" placeholder="Пароль" v-model="password">
                 <input type="password" placeholder="Введите пароль еще раз" v-model="confirmPassword">
             </div>
-            <div class="submit" @click="signUp(username, password, confirmPassword)">
+            <div class="submit" @click="register(username, password, email)">
                 Зарегистрироваться
             </div>
         </form>
     </div>
     </template>
       
-    <script setup>
-    import axios from 'axios';  
-    import { defineModel } from "vue";
+<script setup>
+import { defineModel } from "vue";
+import { useAuthStore } from "@/store/auth";
 
-    const username = defineModel('username')
-    const password = defineModel('password');
-    const confirmPassword = defineModel('confirmPassword');
+const username = defineModel('username')
+const email = defineModel('email');
+const password = defineModel('password');
+const confirmPassword = defineModel('confirmPassword');
 
-    async function signUp(username, password, confirmPassword) {
-        if (confirmPassword === password)
-            try {
-                const response = await axios.post('http://127.0.0.1:8000/api/register/', {
-                    username: username,
-                    password: password,
-                    email: 'bravo.bezbashen@mail.ru'
-                });
-
-                if (response.status == 201) {
-                    alert("Вы успешно зарегистрировались")
-                }
-                else {
-                    alert("ошибка")
-                }
-            }
-            catch(error) {
-                console.log(error)
-            }
+const register = async (username, password, email) => {
+    await useAuthStore().register(username, password, email);
 }
-    
-    </script>
+
+</script>
     
 <style scoped lang="scss">
 .sign-up {

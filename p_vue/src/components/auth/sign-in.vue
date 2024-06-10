@@ -8,7 +8,7 @@
         <div class="reset">
             <a href="#">Забыли пароль?</a>
         </div>
-        <div class="submit" @click="signIn(username, password)">
+        <div class="submit" @click="login(username, password)">
             Войти
         </div>
     </form>
@@ -17,46 +17,19 @@
   
 <script setup>
 
-import axios from 'axios';  
-import { defineModel, onMounted } from "vue";
-import { useIndexStore } from '@/store/index'
-import { useRouter, useRoute } from 'vue-router'
-
-const router = useRouter()
-
-const store = useIndexStore()
+import { defineModel } from "vue";
+import { useAuthStore } from "@/store/auth";
+import { useRouter } from "vue-router";
 
 const username = defineModel('username');
 const password = defineModel('password');
+const router = useRouter();
 
 
-async function signIn(username, password) {
-    try {
-        const response = await axios.post('http://127.0.0.1:8000/api/signin/', {
-            username: username,
-            password: password
-        });
-
-        if (response.status == 200) {
-            alert("Вы успешно авторизовались")
-            store.authorized = !store.authorized
-            router.push('/myprofile')
-        }
-        else {
-            alert("ошибка")
-        }
-    }
-    catch(error) {
-        console.log(error)
-    }
-
+const login = async () => {
+    await useAuthStore().login(username.value, password.value);
+    router.push('/myprofile');
 }
-
-
-onMounted(() => {
-    
-})
-
 </script>
 
 <style scoped lang="scss">
