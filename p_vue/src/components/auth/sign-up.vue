@@ -8,7 +8,7 @@
                 <input type="password" placeholder="Введите пароль еще раз" v-model="confirmPassword">
             </div>
             <div class="submit" @click="register(username, password, email)">
-                Зарегистрироваться
+                <span>Зарегистрироваться</span>
             </div>
         </form>
     </div>
@@ -59,11 +59,6 @@ const register = async (username, password, email) => {
                 font-weight: 900;
                 height: 50px;
                 transition: 0.35s;
-
-                &:hover {
-                    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-                    transition: 0.35s;
-                }
             }
             
 

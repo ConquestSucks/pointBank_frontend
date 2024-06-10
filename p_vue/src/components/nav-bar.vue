@@ -5,18 +5,23 @@
                 <img src="../assets/logo.png">
             </div>
         </router-link>
+        <router-link to="/contacts" class="link">
             <div class="buttons">
                 <span>Контакты</span>
             </div>  
+        </router-link>
+        <router-link to="/routes" class="link">
             <div class="buttons">
                 <span>Маршруты</span>
             </div>  
-        <router-link v-if="!store.$state.accessToken" to="/auth" class="link">
+        </router-link>
+        <router-link v-show="!store.$state.accessToken" to="/auth" class="link">
             <div class="buttons">
                 <span>Войти</span>
             </div>
         </router-link>
-        <router-link v-if="store.$state.accessToken" to="/myprofile" class="link">
+
+        <router-link v-show="store.$state.accessToken" to="/myprofile" class="link">
             <div class="buttons">
                 <span>Аккаунт</span>
             </div>
@@ -33,26 +38,29 @@ const store = useAuthStore()
 
 <style scoped lang="scss">
 
+.hidden {
+    display: none;
+}
+
 .link {
     text-decoration: none;
+    width: max-content;
 }
 
 .navbar {
-    border-radius: 30px;
-    font-family: "Quicksand", sans-serif;
-    display: flex;
+    border-radius: 15px;
+    display: flex !important;
+    width: 100%;
     align-items: center;
     background-color: #B0EBB4;
-    height: 50px;
+    height: fit-content;
     display: flex;
-    padding: 5px;
-    margin: 5px;
     justify-content: space-between;
-
+    column-gap: 200px;
     .logo {
         img {
             pointer-events: none;
-            padding: 5px;
+            padding: 15px;
             width: 140px;
             height: 50px;
             cursor: pointer;
@@ -61,26 +69,29 @@ const store = useAuthStore()
 
     .buttons {
         display: flex;
-        padding: 5px;
         align-items: center;
+        justify-content: center;
+        padding: 15px;
         border-radius: 10px;
-        height: fit-content;
         text-align: center;
         cursor: pointer;
         transition: 0.5s;
 
 
         span {
-            color: black !important;
-            font-size: medium;
+            font-size: large;
             font-weight: 400;
-            color:#AFC4D3;
+            color:#ffffff;
         }
 
         &:hover {
             box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
             transition: 0.5s;
         }
+    }
+
+    .buttons:last-child {
+        margin-right: 20px;
     }
 }
 </style>

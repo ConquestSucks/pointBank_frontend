@@ -6,10 +6,10 @@
             <input type="password" placeholder="Пароль" v-model="password">
         </div>
         <div class="reset">
-            <a href="#">Забыли пароль?</a>
+            <a href="#"><span>Забыли пароль?</span></a>
         </div>
         <div class="submit" @click="login(username, password)">
-            Войти
+            <span>Войти</span>
         </div>
     </form>
 </div>
@@ -61,10 +61,6 @@ const login = async () => {
                 width: 100%;
                 height: 50px;
                 transition: 0.35s;
-                    &:hover {
-                        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-                        transition: 0.35s;
-                    }
             }
 
             input:focus {
@@ -92,7 +88,7 @@ const login = async () => {
             outline: 0;
             height: 50px;
             cursor: pointer;
-            font-weight: bolder;
+            font-weight: 900;
             transition: 0.35s;
 
             &:hover {
