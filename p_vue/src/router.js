@@ -22,7 +22,6 @@ router.beforeEach(async (to, from, next) => {
       if (accessToken) {
         if (!authStore.accessToken) {
           authStore.accessToken = accessToken;
-          await authStore.fetchProfile();
         }
         next();
       } 

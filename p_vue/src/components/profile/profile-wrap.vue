@@ -5,7 +5,8 @@
                 <ProfileItem  :key="index" v-for="(item, index) in data" :title="item" @click="change(index)"/>
             </div>  
             <div class="current">
-                <span>{{ authStore.user }}</span>
+                <About v-show="activeIndex == 0"/>
+                <History v-show="activeIndex == 1"/>
             </div>    
         </div>   
     </div>
@@ -13,27 +14,26 @@
 
     
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router';
-import ProfileItem from "./profile-item.vue"
 import { useAuthStore } from '@/store/auth';
+import ProfileItem from "./profile-item.vue"
+import About from "./profile-about.vue"
+import History from "./profile-history.vue"
 
 const data = ref(["Об аккаунте", "История заказов", "Выйти"])
 const authStore = useAuthStore();
 const router = useRouter()
+const activeIndex = ref(0)
 
 const change = (index) => {
     if(index==2){
         authStore.logout()
         router.push('/auth')
     }
+    return activeIndex.value = index
 }
 
-onMounted(async () => {
-    if (!authStore.user) {
-        await authStore.fetchProfile();
-    }
-})
 
 </script>
 
