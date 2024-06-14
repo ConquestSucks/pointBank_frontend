@@ -4,6 +4,8 @@ import Cookies from 'js-cookie'
 import Auth from '@/components/auth/auth-wrap.vue'
 import Home from '@/components/main/main-wrap.vue'
 import Profile from '@/components/profile/profile-wrap.vue'
+import Contacts from '@/components/contacts-wrap.vue'
+import Routes from '@/components/routes-wrap.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -11,6 +13,8 @@ const router = createRouter({
         {  path:'/auth', name: 'Auth', component: Auth },
         {  path:'/', name: 'Home', component: Home },
         {  path:'/myprofile', name: 'MyProfile', component: Profile, meta: { requiresAuth: true } },
+        {  path:'/routes', name: 'Routes', component: Routes },
+        {  path:'/contacts', name: 'Contacts', component: Contacts },
     ]
 })
 

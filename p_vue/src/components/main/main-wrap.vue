@@ -4,15 +4,15 @@
         <div class="title">
             <div>
                 <span>Купить билет на автобус</span>
-                <span>{{ from }} - {{ to }}</span>
+                <span>{{ fromLocation }} - {{ toLocation }}</span>
             </div>
         </div>
         <div class="data">
             <div class="custom-input-container">
-                <input type="text" class="custom-input" placeholder="Откуда" v-model="from">
+                <autocomplete v-model="fromLocation" :location="'Откуда'" @input="i => fromLocation = i"/>
             </div>
             <div class="custom-input-container">
-                <input type="text" class="custom-input" placeholder="Куда" v-model="to">
+                <autocomplete v-model="toLocation" :location="'Куда'" @input="i => toLocation = i"/>
             </div>
             <div class="custom-input-date">
                 <input type="date" class="custom-input" max="2025-12-31" min="2024-06-07" v-model="date">
@@ -24,7 +24,7 @@
             </div>
         </div>
     </div>
-    <div class="tickets">
+    <div class="tickets" v-show="show">
         <div class="tickets-title">
             <span>Результаты: {{ tickets === null ? "": tickets.length}}</span>
         </div>
@@ -37,32 +37,45 @@
   
 <script setup>
 import axios from 'axios';
+import Autocomplete from '@/components/input-autocomplete.vue';
 import { ref, defineModel } from 'vue';
 import { API_URL } from '@/store/auth';
 
 import Ticket from "./ticket-item.vue"
 
 let tickets = ref(null)
-const from = defineModel("from")
-const to = defineModel("to")
+const fromLocation = defineModel("fromLocation")
+const toLocation = defineModel("toLocation")
 const date = defineModel("date")
+const show = ref(false)
 
 const getData = async () => {
+    console.log(fromLocation.value, toLocation.value, date.value)
     axios.get(`${API_URL}/tickets/`, {
         params: {
-          from_location: from,
-          to_location: to,
-          departure: date,
+            from_location: fromLocation.value,
+            to_location: toLocation.value,
+            departure_date: date.value,
         }
       })
       .then(response => {
         tickets.value = response.data;
-        console.log(tickets.value)
+        show.value = true
       })
       .catch(error => {
         console.error('Error fetching tickets:', error);
       });
-}
+};
+
+/* const buyTicket = (ticketId) => {
+      axios.post('/api/buy_ticket/', { ticket_id: ticketId })
+        .then(response => {
+          alert('Ticket purchased successfully');
+        })
+        .catch(error => {
+          console.error('Error purchasing ticket:', error);
+        });
+    }; */
 
 </script>
 
@@ -105,36 +118,8 @@ const getData = async () => {
         }
         
         .data {
-            .custom-input-container {
-                position: relative;
-                display: inline-block;
-
-                .custom-input {
-                    width: 100px;
-                    height: 40px;
-                    background-color: #E6F2FA;
-                    border-radius: 10px;
-                    border: 1px solid #ccc;
-                    padding-left: 30px; 
-                    font-size: 16px;
-                    color: #333;
-                }
-            }
-    
-            
-            .custom-input-container::before {
-                content: '+';
-                position: absolute;
-                top: 50%;
-                left: 10px;
-                transform: translateY(-50%);
-                color: #D2A86B;
-                font-size: 24px;
-                font-weight: bold;
-                cursor: pointer;
-            }
+            display: flex
         }
-
         .custom-input-date {
             position: relative;
             display: inline-block;
