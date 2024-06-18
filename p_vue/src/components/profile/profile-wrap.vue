@@ -5,8 +5,8 @@
                 <ProfileItem  :key="index" v-for="(item, index) in data" :title="item" @click="change(index)"/>
             </div>  
             <div class="current">
-                <About v-show="activeIndex == 0"/>
-                <History v-show="activeIndex == 1"/>
+                <About v-if="activeIndex == 0"/>
+                <History v-if="activeIndex == 1"/>
             </div>    
         </div>   
     </div>

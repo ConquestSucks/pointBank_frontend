@@ -1,8 +1,8 @@
 <template>
     <div class="about">
         <div class="about-data">
-            <input type="text" placeholder="Имя">
             <input type="text" placeholder="Фамилия">
+            <input type="text" placeholder="Имя">
             <input type="text" placeholder="Отчество">
             <input type="text" placeholder="Номер телефона">
         </div>

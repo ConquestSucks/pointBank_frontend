@@ -3,11 +3,11 @@
         <form>
             <div class="input-data">
                 <input type="text" placeholder="Логин" v-model="username">
-                <input type="email" placeholder="Почта" v-model="email">
-                <input type="password" placeholder="Пароль" v-model="password">
-                <input type="password" placeholder="Введите пароль еще раз" v-model="confirmPassword">
+                <input type="email" placeholder="Почта" v-model="email" :class="{ err : errEmail }">
+                <input type="password" placeholder="Пароль" v-model="password" :class="{ err : errPassword }">
+                <input type="password" placeholder="Введите пароль еще раз" v-model="confirmPassword" :class="{ err : errPassword }">
             </div>
-            <div class="submit" @click="register(username, password, email)">
+            <div class="submit" @click="register(username, password, confirmPassword, email)">
                 <span>Зарегистрироваться</span>
             </div>
         </form>
@@ -15,21 +15,58 @@
     </template>
       
 <script setup>
-import { defineModel } from "vue";
+import { defineModel, ref, watchEffect } from "vue";
 import { useAuthStore } from "@/store/auth";
 
 const username = defineModel('username')
 const email = defineModel('email');
 const password = defineModel('password');
 const confirmPassword = defineModel('confirmPassword');
+const errPassword = ref(false)
+const errEmail = ref(false)
 
-const register = async (username, password, email) => {
-    await useAuthStore().register(username, password, email);
+const validateEmail = (email) => {
+  return String(email)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+};
+
+
+const register = async (username, password, confirmPassword, email) => {
+    if(confirmPassword != password) {
+            errPassword.value = true
+            console.log("password err", errPassword.value)
+        }
+    if (!validateEmail(email)) {
+        errEmail.value = true
+        console.log("email err", errEmail.value, validateEmail(email))
+    }
+    else {
+        await useAuthStore().register(username, password, email);
+    }
 }
+
+watchEffect(
+    () => {
+        if(errPassword.value) {
+            setTimeout(() => {
+                errPassword.value = false
+            }, 1000);
+        }
+        if(errEmail.value) {
+            setTimeout(() => {
+                errEmail.value = false
+            }, 1000);
+        }
+    },
+)
 
 </script>
     
 <style scoped lang="scss">
+
 .sign-up {
     display: flex;
     justify-content: center;
@@ -43,6 +80,7 @@ const register = async (username, password, email) => {
         row-gap: 15px;
         width: 80%;
         height: 100%;
+        
 
         .input-data {
             width: 100%;
@@ -61,6 +99,9 @@ const register = async (username, password, email) => {
                 transition: 0.35s;
             }
             
+            .err {
+                background-color: #FF6969;
+                }
 
             input:focus {
                 outline: 0;

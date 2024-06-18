@@ -6,44 +6,86 @@ export const API_URL = 'http://127.0.0.1:8000/api';
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
-        user: null,
+        user: Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null,
         accessToken: Cookies.get('access_token') || null,
+        refreshToken: Cookies.get('refresh_token') || null
     }),
     actions: {
         async register(username, password, email) {
             try {
-              await axios.post(`${API_URL}/register/`,
-                {
+                await axios.post(`${API_URL}/register/`, {
                     login: username,
                     password: password,
                     email: email
                 });
-                alert('Вы успешно зарегистрировались, теперь авторизуйтесь')
+                alert('Вы успешно зарегистрировались, теперь авторизуйтесь');
             } catch (error) {
-              console.error('Error registering user:', error.response ? error.response.data : error.message);
-              alert('Ошибка регистрации')
+                console.error('Error registering user:', error.response ? error.response.data : error.message);
+                alert('Ошибка регистрации');
             }
-          },
-        async login (username, password) {
+        },
+        async login(username, password) {
             try {
                 const response = await axios.post(`${API_URL}/login/`, {
                     login: username,
                     password: password
                 });
-                    Cookies.set('access_token', response.data.token, { expires: 7 });
-                    this.accessToken = response.data.token;
+
+                if (response.status === 200) {
                     this.user = response.data.user;
-                alert('Вы успешно вошли')
+                    this.accessToken = response.data.access;
+                    this.refreshToken = response.data.refresh;
+                    Cookies.set('access_token', this.accessToken, { expires: 1 });
+                    Cookies.set('refresh_token', this.refreshToken, { expires: 1 });
+                    Cookies.set('user', JSON.stringify(this.user), { expires: 1 });
+                    alert('Вы успешно вошли');
+                } else {
+                    console.error('Unexpected response:', response);
+                    alert('Что-то пошло не так...');
+                }
+            } catch (error) {
+                console.error('Error during login:', error);
+                alert('Что-то пошло не так...');
             }
-            catch(error) {
-                console.log(error)
-                alert('Что-то пошло не так...')
+        },
+        async refreshToken() {
+            try {
+                const refreshToken = useAuthStore().refreshToken;
+                if (!refreshToken) {
+                    console.error('No refresh token available');
+                    return null;
+                }
+                const response = await axios.post(`${API_URL}/refresh_token/`, {
+                    refresh: refreshToken,
+                });
+                if (response.status === 200) {
+                    const newAccessToken = response.data.access;
+                    useAuthStore().accessToken = newAccessToken;
+                    return newAccessToken;
+                }
+            } catch (refreshError) {
+                console.error('Не удалось обновить access token:', refreshError);
+                alert('Не удалось обновить токен доступа');
+                return null;
             }
-        },   
+        },
         logout() {
             this.user = null;
             this.accessToken = null;
+            this.refreshToken = null;
             Cookies.remove('access_token');
+            Cookies.remove('refresh_token');
+            Cookies.remove('user');
+        },
+        formatData(data) {
+            let date = new Date(data)
+            const year = date.getUTCFullYear();
+            const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+            const day = String(date.getUTCDate()).padStart(2, '0');
+            const hours = String(date.getUTCHours()).padStart(2, '0');
+            const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+        
+            return `${year}-${month}-${day} ${hours}:${minutes}`;
         }
-    }
-})
+    },
+});

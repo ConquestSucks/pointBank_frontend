@@ -29,7 +29,7 @@
             <span>Результаты: {{ tickets === null ? "": tickets.length}}</span>
         </div>
         <div class="list">
-            <Ticket :data="item" :key="index" v-for="(item, index) in tickets"/>
+            <Ticket :data="ticket" v-for="ticket in tickets" :key="ticket.id" @buy-ticket="id => reserveTicket(id)"/>
         </div>
     </div>
 </div>
@@ -39,7 +39,7 @@
 import axios from 'axios';
 import Autocomplete from '@/components/input-autocomplete.vue';
 import { ref, defineModel } from 'vue';
-import { API_URL } from '@/store/auth';
+import { API_URL, useAuthStore } from '@/store/auth';
 
 import Ticket from "./ticket-item.vue"
 
@@ -50,7 +50,6 @@ const date = defineModel("date")
 const show = ref(false)
 
 const getData = async () => {
-    console.log(fromLocation.value, toLocation.value, date.value)
     axios.get(`${API_URL}/tickets/`, {
         params: {
             from_location: fromLocation.value,
@@ -67,15 +66,25 @@ const getData = async () => {
       });
 };
 
-/* const buyTicket = (ticketId) => {
-      axios.post('/api/buy_ticket/', { ticket_id: ticketId })
-        .then(response => {
-          alert('Ticket purchased successfully');
-        })
-        .catch(error => {
-          console.error('Error purchasing ticket:', error);
-        });
-    }; */
+const reserveTicket = async (ticketId) => {
+    try {
+        const response = await axios.post(
+        `${API_URL}/buy_ticket/`,
+        { ticket_id: ticketId },
+        {
+            headers: {
+                Authorization: `Bearer ${useAuthStore().accessToken}`,
+            },
+        }
+        );
+        if (response.status === 200) {
+            alert(response.data.message);
+
+        }
+    } catch (error) {
+        console.error('Unable to buy ticket', error);
+    }
+};
 
 </script>
 
