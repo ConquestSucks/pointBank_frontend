@@ -1,21 +1,16 @@
 <template>
     <div class="about">
         <div class="about-data">
-            <input type="text" placeholder="Фамилия">
-            <input type="text" placeholder="Имя">
-            <input type="text" placeholder="Отчество">
-            <input type="text" placeholder="Номер телефона">
-        </div>
-        <div class="about-save">
-            <div>
-                <span>Сохранить</span>
-            </div>
+            <span>Логин: {{ useAuthStore().user.login }}</span>
+            <span>Почта: {{ useAuthStore().user.email }}</span>
         </div>
     </div>
 </template>
 
     
 <script setup>
+import { useAuthStore } from '@/store/auth';
+
 
 </script>
 
@@ -33,29 +28,6 @@
         width: 40%;
         margin-left: 15px;
         margin-top: 15px;
-
-        input {
-            border: 0;
-            border-radius: 8px;
-            height: 30px;
-        }
-    }
-
-    .about-save {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 10px;
-
-        div {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 15%;
-            background-color: #B0EBB4;
-            border-radius: 15px;
-            cursor: pointer;
-        }
     }
 }
 </style>

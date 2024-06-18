@@ -1,13 +1,19 @@
 <template>
     <div class="order">
         <div class="route">
-            <span>Маршрут: {{ data.from_location }} - {{ data.to_location }}</span>
+            <div>
+                <span>Маршрут: {{ data.from_location }} - {{ data.to_location }}</span>
+            </div>
         </div>
         <div class="from">
-            <span>Отправление: {{ useAuthStore().formatData(data.departure) }}</span>
+            <div>
+                <span>Отправление: {{ useAuthStore().formatData(data.departure) }}</span>  
+            </div>
         </div>
         <div class="to">
-            <span>Прибытие: {{ useAuthStore().formatData(data.arrival) }}</span>
+            <div>
+                <span>Прибытие: {{ useAuthStore().formatData(data.arrival) }}</span>      
+            </div>
         </div>
     </div>
 </template>
@@ -41,8 +47,13 @@ const props = defineProps({
     .route {
         display: flex;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: center;
         padding: 15px;
+
+        div {
+            width: 80%;
+            justify-content: flex-start;
+        }
         
         span {
             text-align: left;
@@ -52,6 +63,11 @@ const props = defineProps({
     .from, .to {
         display: flex;  
         align-items: center;   
+
+        div {
+            width: 80%;
+            justify-content: flex-start;
+        }
     }
     
 }
