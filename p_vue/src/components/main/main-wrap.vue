@@ -98,7 +98,7 @@ const reserveTicket = async (ticketId) => {
     .wrap {
         background-color: #BFF6C3;
         height: 30%;
-        border-radius: 10px;
+        border-radius: 15px;
         display: flex;
         row-gap: 15px;
         justify-content: center;

@@ -38,33 +38,32 @@ const change = (index) => {
 </script>
 
 <style scoped lang="scss">
-    .profile {
-        height: 100%;
+.profile {
+    height: 100%;
 
-        .wrap {
-            padding: 15px;
+    .wrap {
+        padding: 15px;
+        display: flex;
+        flex-direction: row;
+        column-gap: 30px;
+        justify-content: center;
+        background-color: #B5E8AF;
+        height: 70%;
+        border-radius: 15px;
+
+        .list {
             display: flex;
-            flex-direction: row;
-            column-gap: 30px;
-            justify-content: center;
-            margin-block-start: 15px;
-            background-color: #B5E8AF;
-            height: 70%;
-            border-radius: 25px;
+            flex-direction: column;
+            row-gap: 15px;
+        }
 
-            .list {
-                display: flex;
-                flex-direction: column;
-                row-gap: 15px;
-            }
-
-            .current {
-                background-color: #BFF6C3;
-                border-radius: 15px;
-                height: 100%;
-                width: 90%;
-            }
+        .current {
+            background-color: #BFF6C3;
+            border-radius: 15px;
+            height: 100%;
+            width: 90%;
         }
     }
+}
 </style>
     
