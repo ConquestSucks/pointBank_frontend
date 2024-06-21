@@ -32,6 +32,10 @@
             <Ticket :data="ticket" v-for="ticket in tickets" :key="ticket.id" @buy-ticket="id => reserveTicket(id)"/>
         </div>
     </div>
+
+    <a href="https://freekassa.ru" target="_blank" rel="noopener noreferrer">
+        <img src="https://cdn.freekassa.ru/banners/big-red-2.png" title="Прием платежей на сайте">
+    </a>
 </div>
 </template>
   
