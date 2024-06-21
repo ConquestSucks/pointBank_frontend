@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 
-export const API_URL = 'http://127.0.0.1:8000/api';
+export const API_URL = process.env.VUE_APP_API_BASE_URL;
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
