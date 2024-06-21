@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from './store/auth'
-import Cookies from 'js-cookie'
 import Auth from '@/components/auth/auth-wrap.vue'
 import Home from '@/components/main/main-wrap.vue'
 import Profile from '@/components/profile/profile-wrap.vue'
@@ -18,24 +17,13 @@ const router = createRouter({
     ]
 })
 
-router.beforeEach(async (to, from, next) => {
-    const authStore = useAuthStore();
-    const accessToken = Cookies.get('access_token');
-  
-    if (to.matched.some(record => record.meta.requiresAuth)) {
-      if (accessToken) {
-        if (!authStore.accessToken) {
-          authStore.accessToken = accessToken;
-        }
-        next();
-      } 
-      else {
-        next({ name: 'Auth' });
-      }
-    } 
-    else {
-      next();
-    }
+router.beforeEach((to, from, next) => {
+
+  if (to.name === 'Auth' && useAuthStore().user) {
+    next({ name: 'Home' });
+  } else {
+    next();
+  }
 });
 
 export default router
