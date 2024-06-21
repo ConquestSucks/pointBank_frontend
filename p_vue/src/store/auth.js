@@ -8,7 +8,8 @@ export const useAuthStore = defineStore('auth', {
     state: () => ({
         user: Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null,
         accessToken: Cookies.get('access_token') || null,
-        refreshToken: Cookies.get('refresh_token') || null
+        refreshToken: Cookies.get('refresh_token') || null,
+        codeCooldown: Cookies.get('cooldown') || null
     }),
     actions: {
         async register(username, password, email) {
@@ -86,6 +87,10 @@ export const useAuthStore = defineStore('auth', {
             const minutes = String(date.getUTCMinutes()).padStart(2, '0');
         
             return `${year}-${month}-${day} ${hours}:${minutes}`;
+        },
+        updateUser(data) {
+            this.user = { ...this.user, ...data };
+            Cookies.set('user', JSON.stringify(this.user), { expires: 1 });
         }
     },
 });

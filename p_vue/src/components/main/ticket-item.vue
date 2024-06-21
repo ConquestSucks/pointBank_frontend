@@ -12,7 +12,7 @@
             <span>Прибытие:</span>
             <span>{{ useAuthStore().formatData(data.arrival) }}</span>
         </div>
-        <div v-show="useAuthStore().user" @click="buyTicket()">
+        <div v-show="useAuthStore().user.isEmailConfirmed" @click="buyTicket()">
             <span>Забронировать</span>
         </div>
     </div>
